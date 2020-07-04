@@ -1,0 +1,230 @@
+﻿@using WebApplication2.Models
+@model Product
+
+@section FilleCssDetails{
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+    <link href="~/assets/css/helper.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+
+    <link href="~/assets/css/skin-default.css" rel="stylesheet" />
+    <link href="~/styles/jquery.rateyo.min.css" rel="stylesheet" />
+    <style>
+        svg {
+            height: 20px !important;
+        }
+
+        .leftLink:hover {
+            background-color: #F85C50 !important;
+        }
+
+        h3, .countReview, .Availabilityinstock {
+            color: #F85C50 !important;
+        }
+
+        .h5 {
+            color: #333;
+            margin-top: 4%;
+            margin-bottom: 5%;
+            font-style: italic
+        }
+
+        .writeReview {
+            border-radius: 30px;
+            background-color: #F85C50 !important;
+            color: #FFF
+        }
+
+            .writeReview:hover {
+                color: #FFF
+            }
+    </style>
+}
+
+@{
+    ViewBag.Title = "ProductDetails";
+}
+
+<section>
+    <div class="container" style="margin-top:5%">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- product details inner end -->
+                <div class="product-details-inner">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <div class="product-large-slider mb-20 slick-arrow-style_2">
+                                <div class="pro-large-img img-zoom" id="img1">
+                                    <img src="~/Content/images/@Model.Image" alt="">
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6" style="margin-top:3%">
+                            <div class="product-details-des mt-md-34 mt-sm-34">
+                                <h3>@Model.Name</h3>
+
+                                <div class="customer-rev">
+                                    <span class="countReview">(@Model.Reviews.Count()</span><span> Customer Review)</span>
+                                </div>
+                                <div class="availability mt-10">
+                                    <h5 style="color:#333">Availability:</h5>
+                                    <span class="Availabilityinstock">@Model.Stock  in stock</span>
+                                </div>
+                                <div class="pricebox">
+                                    <span class="regular-price" style="color:#F85C50 !important"> @Model.Price</span>
+                                </div>
+                                <p>
+                                    @Model.Description
+                                </p>
+                                <div class="action_link">
+                                    <a class="buy-btn" href="@Url.Action("Buy", "Home" , new {Id = @Model.Id })" style="border-radius:30px;background-color:#F85C50 !important;color:#FFF">Add to Cart<i style="background-color:#F85C50 !important" class="fa fa-shopping-cart"></i></a>
+
+                                </div>
+                            </div>
+                            <!--Review-->
+                            <div>
+                                <h6 class="h5">Add Comment And Rating</h6>
+                                @{
+                                    if (Session["ID"] == null)
+                                    {
+                                        <a href="@Url.Action("Login", "Account")" class="writeReview btn btn-block" style="width:50%">Login to post your review</a>
+                                    }
+                                    else if (User.IsInRole("Customer"))
+                                    {
+                                        <form action="~/Home/WiteReview">
+
+                                            <input type="hidden" value="@Model.Id" id="ProductId" name="ProductId" />
+
+                                            <input type="submit" class="writeReview btn btn-block" style="width:50%" value="Write Review" />
+                                        </form>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- product details inner end -->
+        </div>
+    </div>
+</section>
+
+@*<div id="div" style="border:1px solid red;height:30px"></div>*@
+@section Scripts
+        {
+    <script src="~/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="~/assets/js/vendor/popper.min.js"></script>
+    <script src="~/assets/js/plugins.js"></script>
+    <script src="assets/js/ajax-mail.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <script src="~/assets/js/switcher.js"></script>
+    <script src="~/Scripts/jquery.rateyo.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalR/js"></script>
+    <script>
+
+        var proxy = $.connection.Reviews;
+        proxy.client.NewReview = function (review) {
+            $("#div").html("asdd");
+            alert("asd");
+        }
+        $.connection.hub.start().done(function () {
+
+        });
+
+    </script>
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+
+                    @foreach (var prod in ViewBag.name)
+                    {
+                        <div class="product-item fix" style="margin-bottom:10%">
+                            <div class="product-thumb">
+                                <a href="product-details.html">
+                                    <img src="~/Content/images/@prod.Image" alt="" class="img-pri">
+                                    <img src="~/Content/images/@prod.Image" class="img-sec" alt="">
+                                </a>
+                                <div class="product-label">
+                                    <span>hot</span>
+                                </div>
+                                <div class="product-action-link">
+                                    <a href="#" class="leftLink" data-toggle="modal" data-target="#quick_view"> <span class="leftLink" data-toggle="tooltip" data-placement="left" title="Quick view"><i class="fa fa-search"></i></span> </a>
+                                    <a href="#" class="leftLink" data-toggle="tooltip" data-placement="left" title="Wishlist"><span class="leftLink" data-toggle="tooltip" data-placement="left" title="Quick view"><i class="fa fa-heart-o"></i></span></a>
+                                    <a href="#" class="leftLink" data-toggle="tooltip" data-placement="left" title="Compare"><span class="leftLink" data-toggle="tooltip" data-placement="left" title="Quick view"><i class="fa fa-refresh"></i></span></a>
+                                    <a href="#" class="leftLink" data-toggle="tooltip" data-placement="left" title="Add to cart"><span class="leftLink" data-toggle="tooltip" data-placement="left" title="Quick view"><i class="fa fa-shopping-cart"></i></span></a>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h4><a href="product-details.html">@prod.Name</a></h4>
+                                <div class="pricebox">
+                                    <span class="regular-price" style="color:#F85C50 !important">@prod.Price</span>
+                                    <div class="ratings">
+                                        <span class="good"><i class="fa fa-star"></i></span>
+                                        <span class="good"><i class="fa fa-star"></i></span>
+                                        <span class="good"><i class="fa fa-star"></i></span>
+                                        <span class="good"><i class="fa fa-star"></i></span>
+                                        <span><i class="fa fa-star"></i></span>
+                                        <div class="pro-review">
+                                            <span>1 review(s)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    }
+                </div>
+
+
+                <div class="offset-3 col-lg-3">
+                    @{ int i = 1;}
+                    @foreach (var item in Model.Reviews)
+
+                    {
+
+                        <div class="card text-center" style="width:250px;height:350px;margin-bottom:2%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                            <div style="padding-left:18%"> <img class="card-img-top embed-responsive" src="~/Content/images/@item.CustomerImage" style="border-radius:50%;width:150px;height:150px;display:block" alt="Card image"></div>
+
+                            <div class="card-body">
+                                <div>
+                                    <h5 class="card-text" style="color:#F85C50;margin-bottom:2%">@item.CustomerName</h5>
+
+                                </div>
+
+                                <div>
+                                    <script>
+                                $(document).ready(function() {
+
+                                    $('#@("rating" + i)').rateYo({
+                                        rating: @item.Rate,
+                                        readOnly: true
+                                });
+
+                            });
+                                    </script>
+                                    <div id="@("rating" + i)" style="padding-left:13%"></div>
+                                    @{i = i + 1;}
+                                </div>
+                                <p class="card-text" style="color:#F85C50;margin-top:2%">
+                                    @item.ContentReview
+                                </p>
+                                <p class="card-text" style="color:#F85C50;margin-top:2%">
+                                    @item.Date
+                                </p>
+                                <input type="submit" style="border-radius:30px;background-color:#F85C50 !important;color:#FFF;margin-top:5%" value="See Profile" class="btn btn-block">
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+}

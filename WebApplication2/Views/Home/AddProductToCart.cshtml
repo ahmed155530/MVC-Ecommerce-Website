@@ -1,0 +1,13 @@
+﻿@using WebApplication2.Models
+@model List<Product>
+@{
+    ViewBag.Title = "AddProductToCart";
+}
+
+<h2>AddProductToCart</h2>
+<ul id="p"></ul>
+@foreach(var item in Session["cart"]as List<Product>)
+{
+    <div>@item.Name</div>
+}
+

@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebApplication2.Models.Product>
+
+
+    <link href="~/assets/css/font-awesome.min.css" rel="stylesheet" />
+
+
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    }
+
+
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Product
+            <a href="@Url.Action("AddProduct", "AdminSupplier")" class="btn btn-info pull-right fa fa-plus" style="background-color:#F85C50">Add New</a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Image)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Stock)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+
+                 
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                <img src="~/Content/images/@item.Image" style="width:100px;height:100px" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                           
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+
+                            <td>
+                                <a href="@Url.Action("Edit", "AdminSupplier", new { id = item.Id })">
+                                    <i class="fa fa-pencil" style="color:#F85C50"></i>
+
+                                </a>
+                            </td>
+                            <td>
+
+
+                                <a href="@Url.Action("Delete", "AdminSupplier", new { id = item.Id })">
+                                    <i class="fa fa-trash-o" style="color:#F85C50"></i>
+
+                                </a>
+                            </td>
+                        </tr>
+                        }
+
+                    
+                </table>
+            </div>
+
+        </div>
+    </div>

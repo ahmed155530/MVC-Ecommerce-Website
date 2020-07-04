@@ -1,0 +1,34 @@
+﻿
+@{
+     Layout = null;
+}
+
+<h2>WiteReview</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+
+    }
+
+    <script>
+        function processUser() {
+            var parameters = location.search;
+
+            var temp = parameters.split("=");
+
+            alert(temp[1]);
+        }
+        processUser();
+    </script>
+
+</body>
+
+
+</html>
+

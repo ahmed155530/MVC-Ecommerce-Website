@@ -1,0 +1,144 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="OneTech shop project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/styles/bootstrap4/bootstrap.min.css">
+    <link href="~/Content/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Content/styles/custom-Register.css" rel="stylesheet" />
+    <link href="~/Content/styles/plugins-Register.css" rel="stylesheet" />
+    <link href="~/Content/styles/style-Register.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/styles/responsive.css">
+    <link href="~/styles/jquery.rateyo.min.css" rel="stylesheet" />
+    <title></title>
+    <style>
+        label,a{
+            color:#F85C50 !important
+        }
+        textarea:hover
+        {
+            border:1px solid #F85C50 !important;
+        }
+         svg
+        {
+            height:15px !important;
+            /*margin-left:-10px !important;*/
+        }
+    </style>
+</head>
+<body style="background:#FBF8F5">
+    @using (Html.BeginForm("SendReview", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <section class="account">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div style="box-shadow: none !important">
+                            
+                            <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="background-color:#FF7272 !important">
+                                    <div class="account-thumb">
+                                        <img src="~/images/r.png" id="visibleReview" onclick="displayReview()" />
+                                        <h2>Write Review</h2>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consectetur similique deleniti pariatur enim cumque eum</p>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" id="divContentReview" style="display:none;">
+                                    <div class="account-content" style="background-color:#FBF8F5 !important">
+                                        <form action="#">
+
+                                            <div class="single-acc-field">
+
+                                                <input type="hidden" id="ProductId" name="ProductId" />
+                                            </div>
+                                            <div class="single-acc-field">
+                                                <label for="Rating">Rating</label>
+                                                <div id="rateYo"></div>
+                                                <input type="hidden" id="rating" name="Rate" />
+                                            </div>
+                                            <div class="single-acc-field">
+                                                <label for="ContentReview">Content Review</label>
+                                                <textarea name="ContentReview" id="ContentReview"></textarea>
+                                            </div>
+                                            <div class="single-acc-field">
+                                                <button type="submit" style="border-radius:30px;background-color:#F85C50 !important;color:#FFF" class="btn btn-block">Send Review</button>
+                                            </div>
+                                            <a href="" id="Details" onclick="DetalisFun()"> Back To Details</a>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+
+    <script src="~/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="~/Content/js/plugins-Register.js"></script>
+    <script src="~/Content/js/main-Register.js"></script>
+
+    <script src="~/Scripts/jquery.rateyo.min.js"></script>
+    <script>
+
+
+        var Product;
+        function WriteReview() {
+
+            var parameters = location.search;
+
+            Product = parameters.split("=");
+
+            document.getElementById("ProductId").value = Product[1];
+
+            
+
+        }
+        WriteReview();
+    </script>
+    <script>
+        $(function () {
+            $("#rateYo").rateYo({
+                rating: 0,
+                numStars: 5,
+                maxValue: 5,
+                halfStar: true,
+                onChange: function (rating, rateYoInstance) {
+                    $("#rating").val(rating);
+
+                }
+
+            })
+        });
+        function DetalisFun() {
+            document.getElementById("Details").href = "ProductDetails/"+Product[1];
+
+            }
+        function displayReview()
+        {
+           
+            $("#divContentReview").fadeIn("slow");
+           
+        }
+
+    </script>
+
+</body>
+
+
+
+</html>
+
+
+

@@ -1,0 +1,169 @@
+﻿@using WebApplication2.Models
+@section FilleCssDetails{
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+    <link href="~/assets/css/helper.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+
+    <link href="~/assets/css/skin-default.css" rel="stylesheet" />
+
+    <link href="~/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <style>
+        .remove {
+            background: #F85C50 !important;
+            padding: 6%;
+            color: #FFF;
+        }
+
+        .colorFont {
+            color: #FFF;
+        }
+    </style>
+}
+@{
+    ViewBag.Title = "Buy";
+}
+
+<div class="cart-main-wrapper" style="margin-top:7%">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Cart Table Area -->
+                <div class="cart-table table-responsive">
+                    <table class="table table-bordered">
+                        @using (Html.BeginForm("Update", "Home", FormMethod.Post,
+                                                         new { enctype = "multipart/form-data" }))
+                        {
+                            <thead style="background:#F85C50 !important">
+                                <tr>
+                                    <th class="pro-thumbnail">Thumbnail</th>
+                                    <th class="pro-title">Name</th>
+                                    <th class="pro-price">Price</th>
+                                    <th class="pro-quantity"> Quantity<input type="submit" value="Update" class="btn" style="margin-left:6%;background: #ff7065;;color:#FFF" /></th>
+                                    <th class="pro-subtotal">Sub Total</th>
+                                    <th class="pro-remove">Remove</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @if ((List<Item>)Session["cart"] != null)
+                                {
+
+
+                                    foreach (Item item in (List<Item>)Session["cart"])
+                                    {
+                                        <tr>
+                                            <td class="pro-thumbnail">
+                                                <a href="#">
+                                                    <img class="img-fluid" src="~/Content/images/@item.product.Image" width="60" />
+
+                                                </a>
+
+                                            </td>
+                                            <td class="pro-title">@item.product.Name</td>
+                                            <td class="pro-price"><span>@item.product.Price</span></td>
+                                            <td>
+
+                                                <input type="number" name="Quantity" value="@item.Quantity" min="1" max="@item.product.Stock" class="btn btn-block">
+
+                                                @*<input type="text" name="Quantity" value="@item.Quantity" />*@
+
+
+                                            </td>
+                                            @*<td><input type="number" id="n" value="5" step=".5" /></td>*@
+                                            <td class="pro-subtotal"><span>@(item.product.Price * item.Quantity)</span></td>
+                                            @*<td class="pro-remove"><i class="fa fa-trash-o">@Html.ActionLink("+<i class='fa fa-trash-o'></i>+", "Remove", "Home", new { id = item.product.Id }, null)</i></td>*@
+
+                                            <td>
+                                                <a href="@Url.Action("Remove", "Home", new { id = item.product.Id })" class="remove">
+                                                    <i class="fa fa-trash-o" style="color:#FFF"></i>
+
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+}
+                                </tbody>
+                            }
+
+                            </table>
+                        </div>
+
+                        <!-- Cart Update Option -->
+                        <div class="cart-update-option d-block d-md-flex justify-content-between">
+                            <div class="apply-coupon-wrapper">
+
+
+                                <button class="btn" style="background:#F85C50;width:60%;border-radius:30px;margin-left:60%">@Html.ActionLink("Back To Shopping", "Index", "Home", null, new { @class = "colorFont" })</button>
+
+                                @*@Html.ActionLink("Proceed To Checkout", "CheckOut", "Home")*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top:5%;margin-bottom:5%">
+                    <div class="col-lg-5 ml-auto">
+                        <!-- Cart Calculation Area -->
+                        <div class="cart-calculator-wrapper">
+                            <div class="cart-calculate-items">
+                                <h3 style="text-align:center">Cart Totals</h3>
+                                <div class="table-responsive">
+                                    <table class="table">
+
+
+                                        <tr class="total table-bordered">
+                                            <th style="font-weight:bold;color:#333;text-align:center">Total</th>
+                                            <th class="total-amount" style="text-align:center">
+                                               
+                                                @if ((List<Item>)Session["cart"] != null)
+                                                {
+
+                                                    List<Item> cart = (List<Item>)Session["cart"];
+                                                    var  total = cart.Sum(item => item.product.Price * item.Quantity);
+                                                    @total;
+
+
+
+                                                }
+
+                                            </th>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-block" style="background:#F85C50;margin-left:18%;width:60%;border-radius:30px;margin-top:10%">@Html.ActionLink("Checkout", "CheckOut", "Home", null, new { @class = "colorFont" })</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @section Scripts
+{
+
+            <script src="~/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+            <script src="~/assets/js/vendor/popper.min.js"></script>
+            <!-- Bootstrap Min Js -->
+            <script src="~/assets/js/plugins.js"></script>
+            <!-- Ajax Mail Js -->
+            <script src="assets/js/ajax-mail.js"></script>
+            <!-- Active Js -->
+            <script src="~/assets/js/main.js"></script>
+            <!-- Switcher JS [Please Remove this when Choose your Final Projct] -->
+            <script src="~/assets/js/switcher.js"></script>
+            @*<script>
+                        var id;
+                        $(":input").bind('keyup mouseup', function () {
+                             var asd = $(this).val()
+                    alert("changed");
+                            id=$(this).val();
+                            @Html.ActionLink("Add to Cart", "Buy", "Home", new { Id =  1}, null)
+                });
+                    </script>*@
+        }
+

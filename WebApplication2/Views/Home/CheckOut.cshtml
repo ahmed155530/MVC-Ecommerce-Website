@@ -1,0 +1,70 @@
+﻿@using WebApplication2.Models
+@{
+    ViewBag.Title = "CheckOut";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/MyMainLayOut.css" rel="stylesheet" />
+<link href="~/assets/css/font-awesome.min.css" rel="stylesheet" />
+<link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+<link href="~/assets/css/helper.min.css" rel="stylesheet" />
+
+<link href="~/assets/css/style.css" rel="stylesheet" />
+
+<link href="~/assets/css/skin-default.css" rel="stylesheet" />
+
+
+
+
+<div class="section-title mb-30" style="margin-top:5%">
+    <div class="title-icon">
+        <i class="fa fa-desktop"></i>
+    </div>
+    <h3>PaymentWithPaypal</h3>
+</div> <!-- section title end -->
+
+<br />
+
+<table class="table table-bordered">
+    <thead style="background-color:#F85C50">
+        <tr>
+            <th style="color:white">Product</th>
+            <th style="color:white">Price</th>
+            <th style="color:white">Quantity</th>
+            <th style="color:white">Line Total</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int Total = 0;
+        }
+        @foreach (Item item in (List<Item>)Session["cart"])
+        {
+            int lineTotal = Convert.ToInt32(item.Quantity * item.product.Price);
+            Total = Convert.ToInt32(@Total + lineTotal);
+
+            Session["SesTotal"] = Total;
+
+            <tr>
+                <td>@item.product.Name</td>
+                <td>@item.product.Price</td>
+                <td>@item.Quantity</td>
+                <td>@lineTotal</td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="4" class="text-right"><b>Total: @Total</b></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+<a href="@Url.Action("PaymentWithPaypal", "Payment")" class="btn btn-light" style="background-color:#F85C50;color:white">Payment</a>
+<br />
+<br />
+<br />
